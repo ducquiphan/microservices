@@ -1,8 +1,7 @@
 package com.ducpq.rest.microservices.controller;
 
+import com.ducpq.rest.microservices.entity.HelloWorldBean;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -15,11 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 // Rest API
 @RestController
 public class HelloWorldController {
-
-	// /hello-world
+	
 	@GetMapping("/hello-world")
 	public String helloWorld() {
 		return "Hello World";
+	}
+	
+	@GetMapping("/hello-world-bean")
+	public HelloWorldBean helloWorldBean() {
+		return new HelloWorldBean("Hello World");
 	}
 	
 }
