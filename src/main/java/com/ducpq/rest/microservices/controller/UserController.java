@@ -2,11 +2,11 @@ package com.ducpq.rest.microservices.controller;
 
 import com.ducpq.rest.microservices.dao.UserDao;
 import com.ducpq.rest.microservices.entity.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -36,5 +36,16 @@ public class UserController {
 		return userDao.findById(userId);
 	}
 	
-	
+	@PostMapping("")
+	public ResponseEntity<?> createUser(@RequestBody User user) {
+		User createdUser = userDao.save(user);
+		// users/4 => users/{id}, user.getId()
+		URI location = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(createdUser.getId())
+				.toUri();
+		// location - /user/{userId}
+		return ResponseEntity.created(location).body(createdUser);
+	}
 }
