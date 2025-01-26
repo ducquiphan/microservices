@@ -1,11 +1,14 @@
 package com.ducpq.rest.microservices.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
+
 /**
- * HelloWorldBean
+ * Users
  *
  * @author Admin
  * @version 1.0
@@ -14,12 +17,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class HelloWorldBean {
-	
-	private String message;
-	
-	public HelloWorldBean(String message) {
-		this.message = message;
-	}
-	
+@AllArgsConstructor
+public class User {
+	private Integer id;
+	private String name;
+	private LocalDate birthDate;
 }
