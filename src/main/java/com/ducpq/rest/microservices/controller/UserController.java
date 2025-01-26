@@ -3,6 +3,7 @@ package com.ducpq.rest.microservices.controller;
 import com.ducpq.rest.microservices.dao.UserDao;
 import com.ducpq.rest.microservices.entity.User;
 import com.ducpq.rest.microservices.exception.UserNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -41,7 +42,7 @@ public class UserController {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<?> createUser(@RequestBody User user) {
+	public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
 		User createdUser = userDao.save(user);
 		// users/4 => users/{id}, user.getId()
 		URI location = ServletUriComponentsBuilder
