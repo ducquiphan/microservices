@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 /**
  * UserController
@@ -28,17 +27,17 @@ public class UserController {
 	}
 	
 	@GetMapping("")
-	public List<User> retrieveAllUsers() {
-		return userDao.findAll();
+	public ResponseEntity<?> retrieveAllUsers() {
+		return ResponseEntity.ok(userDao.findAll());
 	}
 	
 	@GetMapping("/{userId}")
-	public User retrieveUser(@PathVariable("userId") int userId) {
+	public ResponseEntity<?> retrieveUser(@PathVariable("userId") int userId) {
 		User user = userDao.findById(userId);
 		if (user == null) {
 			throw new UserNotFoundException("Id: " + userId);
 		}
-		return user;
+		return ResponseEntity.ok(user);
 	}
 	
 	@PostMapping("")
@@ -53,4 +52,17 @@ public class UserController {
 		// location - /user/{userId}
 		return ResponseEntity.created(location).body(createdUser);
 	}
+	
+	@DeleteMapping("/{userId}")
+	public ResponseEntity<?> deleteUser(@PathVariable("userId") int userId) {
+		User user = userDao.findById(userId);
+		if (user == null) {
+			throw new UserNotFoundException("Id: " + userId);
+		}
+		
+		userDao.deleteById(userId);
+		
+		return ResponseEntity.ok("Deleted user with id: " + userId);
+	}
+	
 }
