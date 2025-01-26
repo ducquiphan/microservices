@@ -2,6 +2,7 @@ package com.ducpq.rest.microservices.controller;
 
 import com.ducpq.rest.microservices.dao.UserDao;
 import com.ducpq.rest.microservices.entity.User;
+import com.ducpq.rest.microservices.exception.UserNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -33,7 +34,11 @@ public class UserController {
 	
 	@GetMapping("/{userId}")
 	public User retrieveUser(@PathVariable("userId") int userId) {
-		return userDao.findById(userId);
+		User user = userDao.findById(userId);
+		if (user == null) {
+			throw new UserNotFoundException("Id: " + userId);
+		}
+		return user;
 	}
 	
 	@PostMapping("")
