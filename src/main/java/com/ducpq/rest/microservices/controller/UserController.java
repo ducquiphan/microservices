@@ -4,11 +4,15 @@ import com.ducpq.rest.microservices.dao.UserDao;
 import com.ducpq.rest.microservices.entity.User;
 import com.ducpq.rest.microservices.exception.UserNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * UserController
@@ -29,7 +33,13 @@ public class UserController {
 	
 	@GetMapping("")
 	public ResponseEntity<?> retrieveAllUsers() {
-		return ResponseEntity.ok(userDao.findAll());
+		List<User> users = userDao.findAll();
+		List<EntityModel<?>> entityModels = new ArrayList<>();
+		users.forEach(user -> {
+			WebMvcLinkBuilder link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveUser(user.getId()));
+			entityModels.add(EntityModel.of(user).add(link.withRel("self")));
+		});
+		return ResponseEntity.ok(entityModels);
 	}
 	
 	@GetMapping("/{userId}")
@@ -38,7 +48,12 @@ public class UserController {
 		if (user == null) {
 			throw new UserNotFoundException("Id: " + userId);
 		}
-		return ResponseEntity.ok(user);
+		
+		EntityModel<?> entityModel = EntityModel.of(user);
+		
+		WebMvcLinkBuilder link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveAllUsers());
+		entityModel.add(link.withRel("all-users"));
+		return ResponseEntity.ok(entityModel);
 	}
 	
 	@PostMapping("")
