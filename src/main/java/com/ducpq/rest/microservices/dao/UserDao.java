@@ -17,7 +17,7 @@ import java.util.function.Predicate;
  */
 @Component
 public class UserDao {
-	// Using static list
+	// Using a static list
 	private static final List<User> users = new ArrayList<>();
 	private static Integer usersCount = 0;
 	
