@@ -87,7 +87,7 @@ public class UserJpaController {
 	}
 	
 	@GetMapping("/{userId}/posts")
-	public ResponseEntity<?> retrivePostsForUser(@PathVariable("userId") int userId) {
+	public ResponseEntity<?> retrievePostsForUser(@PathVariable("userId") int userId) {
 		User user = userRepo.findById(userId).orElse(null);
 		if (user == null) {
 			throw new UserNotFoundException("Id: " + userId);
