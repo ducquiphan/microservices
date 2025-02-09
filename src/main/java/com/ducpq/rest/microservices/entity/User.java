@@ -1,6 +1,5 @@
 package com.ducpq.rest.microservices.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
@@ -32,7 +31,6 @@ public class User {
 	@Past(message = "Birth date must be in the past")
 	private LocalDate birthDate;
 	@OneToMany(mappedBy = "user")
-	@JsonIgnore
 	private List<Post> posts;
 	
 	public User(Integer id, String name, LocalDate birthDate) {

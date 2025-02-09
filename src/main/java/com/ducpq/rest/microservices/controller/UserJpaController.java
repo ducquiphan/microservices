@@ -1,6 +1,7 @@
 package com.ducpq.rest.microservices.controller;
 
 import com.ducpq.rest.microservices.dao.UserDao;
+import com.ducpq.rest.microservices.entity.Post;
 import com.ducpq.rest.microservices.entity.User;
 import com.ducpq.rest.microservices.exception.UserNotFoundException;
 import com.ducpq.rest.microservices.repository.UserRepo;
@@ -83,6 +84,18 @@ public class UserJpaController {
 		userRepo.deleteById(userId);
 		
 		return ResponseEntity.ok("Deleted user with id: " + userId);
+	}
+	
+	@GetMapping("/{userId}/posts")
+	public ResponseEntity<?> retrivePostsForUser(@PathVariable("userId") int userId) {
+		User user = userRepo.findById(userId).orElse(null);
+		if (user == null) {
+			throw new UserNotFoundException("Id: " + userId);
+		}
+		
+		List<Post> userPosts = user.getPosts();
+		
+		return ResponseEntity.ok(userPosts);
 	}
 	
 }

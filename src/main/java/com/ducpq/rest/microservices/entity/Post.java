@@ -25,5 +25,6 @@ public class Post {
 	private String description;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
+	@JoinColumn(name = "user_id")
 	private User user;
 }
