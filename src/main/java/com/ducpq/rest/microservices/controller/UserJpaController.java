@@ -6,6 +6,7 @@ import com.ducpq.rest.microservices.entity.User;
 import com.ducpq.rest.microservices.exception.UserNotFoundException;
 import com.ducpq.rest.microservices.repository.PostRepo;
 import com.ducpq.rest.microservices.repository.UserRepo;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
@@ -53,10 +54,7 @@ public class UserJpaController {
 	
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> retrieveUser(@PathVariable("userId") int userId) {
-		User user = userRepo.findById(userId).orElse(null);
-		if (user == null) {
-			throw new UserNotFoundException("Id: " + userId);
-		}
+		User user = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("Id: " + userId));
 		
 		EntityModel<?> entityModel = EntityModel.of(user);
 		
@@ -82,10 +80,7 @@ public class UserJpaController {
 	@DeleteMapping("/{userId}")
 	@Transactional
 	public ResponseEntity<?> deleteUser(@PathVariable("userId") int userId) {
-		User user = userRepo.findById(userId).orElse(null);
-		if (user == null) {
-			throw new UserNotFoundException("Id: " + userId);
-		}
+		User user = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("Id: " + userId));
 		
 		userRepo.deleteById(userId);
 		
@@ -93,7 +88,7 @@ public class UserJpaController {
 	}
 	
 	@GetMapping("/{userId}/posts")
-	public ResponseEntity<?> retrievePostsForUserVersion(@PathVariable("userId") int userId) {
+	public ResponseEntity<?> retrievePostsForUser(@PathVariable("userId") int userId) {
 		User user = userRepo.findById(userId).orElse(null);
 		if (user == null) {
 			throw new UserNotFoundException("Id: " + userId);
@@ -104,5 +99,34 @@ public class UserJpaController {
 		return ResponseEntity.ok(userPosts);
 	}
 	
+	@PostMapping("/{userId}/posts")
+	@Transactional
+	public ResponseEntity<?> createPostForUser(@PathVariable("userId") int userId, @Valid @RequestBody Post post) {
+		
+		User user = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("Id: " + userId));
+		post.setUser(user);
+		
+		Post createdPost = postRepo.save(post);
+		// users/4 => users/{id}, user.getId()
+		URI location = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(createdPost.getId())
+				.toUri();
+		// location - /user/{userId}
+		return ResponseEntity.created(location).body(createdPost);
+	}
 	
+	@GetMapping("/{userId}/posts/{postId}")
+	@Transactional
+	public ResponseEntity<?> getPost(@PathVariable("userId") int userId, @PathVariable("postId") int postId) {
+		
+		userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("Id: " + userId));
+		Post post = postRepo.findById(postId).orElseThrow(() -> new EntityNotFoundException("Post with id: " + postId + " not found"));
+		EntityModel<?> entityModel = EntityModel.of(post);
+		
+		WebMvcLinkBuilder link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrievePostsForUser(userId));
+		entityModel.add(link.withRel("user-posts"));
+		return ResponseEntity.ok(entityModel);
+	}
 }

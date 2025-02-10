@@ -92,4 +92,13 @@ public class UserServiceImpl implements UserService {
 	public Post createPost(Post post) {
 		return postRepo.save(post);
 	}
+	
+	/**
+	 * @param postId
+	 * @return
+	 */
+	@Override
+	public Post findPostById(int postId) {
+		return postRepo.findById(postId).orElse(null);
+	}
 }

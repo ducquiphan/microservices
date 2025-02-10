@@ -2,6 +2,7 @@ package com.ducpq.rest.microservices.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 /**
@@ -22,6 +23,7 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@Size(min = 10, message = "Message must be at least 10 letters long")
 	private String description;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore

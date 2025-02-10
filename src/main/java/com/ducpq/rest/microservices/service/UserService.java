@@ -26,4 +26,6 @@ public interface UserService {
 	List<Post> findAllPostsByUserId(int userId);
 	
 	Post createPost(Post post);
+	
+	Post findPostById(int postId);
 }
