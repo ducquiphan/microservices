@@ -13,10 +13,9 @@ import org.springframework.stereotype.Component;
  * @since 2025-02-20
  */
 @Component
-@ConfigurationProperties("limits-service")
+@ConfigurationProperties("salary-service")
 @Setter
 @Getter
 public class Configuration {
-	private int minimum;
-	private int maximum;
+	private long defaultSalary;
 }

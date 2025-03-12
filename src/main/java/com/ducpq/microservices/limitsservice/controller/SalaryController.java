@@ -1,7 +1,7 @@
 package com.ducpq.microservices.limitsservice.controller;
 
 import com.ducpq.microservices.limitsservice.config.Configuration;
-import com.ducpq.microservices.limitsservice.entity.Limits;
+import com.ducpq.microservices.limitsservice.entity.Salary;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2025-02-20
  */
 @RestController
-@RequestMapping("/limits")
+@RequestMapping("/salaries")
 @AllArgsConstructor
-public class LimitsController {
+public class SalaryController {
 	
 	private final Configuration configuration;
 	
 	@GetMapping()
-	public Limits retrieveLimits(){
-		return new Limits(configuration.getMinimum(), configuration.getMaximum());
-//		return new Limits(1,1000);
+	public Salary retrieveDefaultSalary(){
+		return new Salary(configuration.getDefaultSalary());
 	}
 }

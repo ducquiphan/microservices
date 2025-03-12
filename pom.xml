@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ducpq.microservices</groupId>
-	<artifactId>limits-service</artifactId>
+	<artifactId>salary-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>limits-service</name>
+	<name>salary-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
