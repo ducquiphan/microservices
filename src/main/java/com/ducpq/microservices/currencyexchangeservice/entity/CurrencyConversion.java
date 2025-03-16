@@ -7,7 +7,7 @@ import lombok.*;
 import java.math.BigDecimal;
 
 /**
- * CurrencyExchange
+ * CurrencyConversion
  *
  * @author Admin
  * @version 1.0
@@ -28,12 +28,14 @@ public class CurrencyConversion {
 	@Column(name = "currency_to")
 	private String to;
 	private BigDecimal conversionMultiple;
+	private BigDecimal quantity;
+	private BigDecimal totalCalculatedAmount;
 	private String environment;
 	
-	public CurrencyConversion(Long id, String from, String to, BigDecimal conversionMultiple) {
-		this.id = id;
+	public CurrencyConversion(String from, String to, BigDecimal conversionMultiple, BigDecimal quantity) {
 		this.from = from;
 		this.to = to;
 		this.conversionMultiple = conversionMultiple;
+		this.quantity = quantity;
 	}
 }

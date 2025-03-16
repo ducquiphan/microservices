@@ -10,24 +10,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
 /**
- * CurrencyExchangeController
+ * CurrencyConversionController
  *
  * @author Admin
  * @version 1.0
  * @since 2025-03-13
  */
 @RestController
-@RequestMapping("/currency-exchange")
+@RequestMapping("/currency-conversion")
 @AllArgsConstructor
 public class CurrencyConversionController {
 	
 	private Environment environment;
 	private CurrencyConversionService currencyConversionService;
 	
-	@GetMapping("/from/{fromCurrency}/to/{toCurrency}")
-	public CurrencyConversion retrieveExchangeValue(@PathVariable("fromCurrency") String fromCurrency,
-													@PathVariable("toCurrency") String toCurrency) {
+	@GetMapping("/from/{fromCurrency}/to/{toCurrency}/quantity/{quantity}")
+	public CurrencyConversion calculateCurrencyConversion(@PathVariable("fromCurrency") String fromCurrency,
+														  @PathVariable("toCurrency") String toCurrency,
+														  @PathVariable("quantity") BigDecimal quantity) {
 		//		CurrencyExchange currencyExchange = new CurrencyExchange(1000L, fromCurrency, toCurrency,
 		//				BigDecimal.valueOf(50));
 		CurrencyConversion currencyConversion = currencyConversionService.findCurrencyExchange(fromCurrency, toCurrency);

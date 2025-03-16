@@ -5,7 +5,7 @@ import com.ducpq.microservices.currencyexchangeservice.entity.CurrencyConversion
 import java.util.List;
 
 /**
- * CurrencyExchangeService
+ * CurrencyConversionService
  *
  * @author Admin
  * @version 1.0

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * CurrencyExchangeRepo
+ * CurrencyConversionRepo
  *
  * @author Admin
  * @version 1.0
