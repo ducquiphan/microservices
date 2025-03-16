@@ -1,4 +1,4 @@
-package com.ducpq.microservices.currencyexchangeservice;
+package com.ducpq.microservices.currencyconversionservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

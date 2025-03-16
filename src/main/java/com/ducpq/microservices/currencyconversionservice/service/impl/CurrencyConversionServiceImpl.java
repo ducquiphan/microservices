@@ -1,7 +1,7 @@
-package com.ducpq.microservices.currencyexchangeservice.service.impl;
+package com.ducpq.microservices.currencyconversionservice.service.impl;
 
-import com.ducpq.microservices.currencyexchangeservice.repository.CurrencyConversionRepo;
-import com.ducpq.microservices.currencyexchangeservice.service.CurrencyConversionService;
+import com.ducpq.microservices.currencyconversionservice.repository.CurrencyConversionRepo;
+import com.ducpq.microservices.currencyconversionservice.service.CurrencyConversionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
-package com.ducpq.microservices.currencyexchangeservice.controller;
+package com.ducpq.microservices.currencyconversionservice.controller;
 
-import com.ducpq.microservices.currencyexchangeservice.entity.CurrencyConversion;
-import com.ducpq.microservices.currencyexchangeservice.service.CurrencyConversionService;
+import com.ducpq.microservices.currencyconversionservice.entity.CurrencyConversion;
+import com.ducpq.microservices.currencyconversionservice.service.CurrencyConversionService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.ducpq.microservices.currencyexchangeservice.entity;
+package com.ducpq.microservices.currencyconversionservice.entity;
 
 
 import jakarta.persistence.*;

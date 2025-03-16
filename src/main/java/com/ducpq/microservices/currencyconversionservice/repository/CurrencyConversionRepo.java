@@ -1,6 +1,6 @@
-package com.ducpq.microservices.currencyexchangeservice.repository;
+package com.ducpq.microservices.currencyconversionservice.repository;
 
-import com.ducpq.microservices.currencyexchangeservice.entity.CurrencyConversion;
+import com.ducpq.microservices.currencyconversionservice.entity.CurrencyConversion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

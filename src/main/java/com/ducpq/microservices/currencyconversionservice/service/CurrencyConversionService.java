@@ -1,4 +1,4 @@
-package com.ducpq.microservices.currencyexchangeservice.service;
+package com.ducpq.microservices.currencyconversionservice.service;
 
 /**
  * CurrencyConversionService
