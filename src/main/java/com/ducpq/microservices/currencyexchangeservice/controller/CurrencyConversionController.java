@@ -2,7 +2,6 @@ package com.ducpq.microservices.currencyexchangeservice.controller;
 
 import com.ducpq.microservices.currencyexchangeservice.entity.CurrencyConversion;
 import com.ducpq.microservices.currencyexchangeservice.service.CurrencyConversionService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,12 +30,7 @@ public class CurrencyConversionController {
 	public CurrencyConversion calculateCurrencyConversion(@PathVariable("fromCurrency") String fromCurrency,
 														  @PathVariable("toCurrency") String toCurrency,
 														  @PathVariable("quantity") BigDecimal quantity) {
-		//		CurrencyExchange currencyExchange = new CurrencyExchange(1000L, fromCurrency, toCurrency,
-		//				BigDecimal.valueOf(50));
-		CurrencyConversion currencyConversion = currencyConversionService.findCurrencyExchange(fromCurrency, toCurrency);
-		if (currencyConversion == null) {
-			throw new EntityNotFoundException("Not found currency exchange from " + fromCurrency + " to " + toCurrency + " at the moment!");
-		}
+		CurrencyConversion currencyConversion = new CurrencyConversion(1L, fromCurrency, toCurrency, BigDecimal.ONE, quantity, BigDecimal.ONE, "");
 		String port = environment.getProperty("local.server.port");
 		currencyConversion.setEnvironment(port);
 		return currencyConversion;
