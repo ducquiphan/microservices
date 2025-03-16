@@ -1,0 +1,5 @@
+Currency Exchange Service
+http://localhost:8000/currency-exchange/from/USD/to/VND
+
+Currency Conversion Service
+http://localhost:8100/currency-conversion/from/USD/to/VND/quantity/10
