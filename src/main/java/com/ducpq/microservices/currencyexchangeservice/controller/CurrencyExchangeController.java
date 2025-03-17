@@ -3,7 +3,7 @@ package com.ducpq.microservices.currencyexchangeservice.controller;
 import com.ducpq.microservices.currencyexchangeservice.entity.CurrencyExchange;
 import com.ducpq.microservices.currencyexchangeservice.service.CurrencyExchangeService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/currency-exchange")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CurrencyExchangeController {
 	
-	private Environment environment;
-	private CurrencyExchangeService currencyExchangeService;
+	private final Environment environment;
+	private final CurrencyExchangeService currencyExchangeService;
 	
 	@GetMapping("/from/{fromCurrency}/to/{toCurrency}")
 	public CurrencyExchange retrieveExchangeValue(@PathVariable("fromCurrency") String fromCurrency,
