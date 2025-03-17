@@ -1,9 +1,8 @@
 package com.ducpq.microservices.currencyconversionservice.controller;
 
 import com.ducpq.microservices.currencyconversionservice.entity.CurrencyConversion;
-import com.ducpq.microservices.currencyconversionservice.service.CurrencyConversionService;
-import lombok.AllArgsConstructor;
-import org.springframework.core.env.Environment;
+import com.ducpq.microservices.currencyconversionservice.proxy.CurrencyExchangeProxy;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,11 +22,9 @@ import java.util.HashMap;
  */
 @RestController
 @RequestMapping("/currency-conversion")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CurrencyConversionController {
-	
-	private Environment environment;
-	private CurrencyConversionService currencyConversionService;
+	private final CurrencyExchangeProxy currencyExchangeProxy;
 	
 	@GetMapping("/from/{fromCurrency}/to/{toCurrency}/quantity/{quantity}")
 	public CurrencyConversion calculateCurrencyConversion(@PathVariable("fromCurrency") String fromCurrency,
@@ -43,6 +40,18 @@ public class CurrencyConversionController {
 		CurrencyConversion currencyConversion = response.getBody();
 		currencyConversion.setQuantity(quantity);
 		currencyConversion.setTotalCalculatedAmount(quantity.multiply(currencyConversion.getConversionMultiple()));
+		currencyConversion.setEnvironment(currencyConversion.getEnvironment() + " from rest template");
+		return currencyConversion;
+	}
+	
+	@GetMapping("/feign/from/{fromCurrency}/to/{toCurrency}/quantity/{quantity}")
+	public CurrencyConversion calculateCurrencyConversionFeign(@PathVariable("fromCurrency") String fromCurrency,
+															   @PathVariable("toCurrency") String toCurrency,
+															   @PathVariable("quantity") BigDecimal quantity) {
+		CurrencyConversion currencyConversion = currencyExchangeProxy.retrieveExchangeValue(fromCurrency, toCurrency);
+		currencyConversion.setQuantity(quantity);
+		currencyConversion.setTotalCalculatedAmount(quantity.multiply(currencyConversion.getConversionMultiple()));
+		currencyConversion.setEnvironment(currencyConversion.getEnvironment() + " from feign");
 		return currencyConversion;
 	}
 }
