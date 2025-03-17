@@ -4,12 +4,15 @@ import com.ducpq.microservices.currencyconversionservice.entity.CurrencyConversi
 import com.ducpq.microservices.currencyconversionservice.service.CurrencyConversionService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 
 /**
  * CurrencyConversionController
@@ -30,9 +33,16 @@ public class CurrencyConversionController {
 	public CurrencyConversion calculateCurrencyConversion(@PathVariable("fromCurrency") String fromCurrency,
 														  @PathVariable("toCurrency") String toCurrency,
 														  @PathVariable("quantity") BigDecimal quantity) {
-		CurrencyConversion currencyConversion = new CurrencyConversion(1L, fromCurrency, toCurrency, BigDecimal.ONE, quantity, BigDecimal.ONE, "");
-		String port = environment.getProperty("local.server.port");
-		currencyConversion.setEnvironment(port);
+		HashMap<String, String> uriVariables = new HashMap<>();
+		uriVariables.put("fromCurrency", fromCurrency);
+		uriVariables.put("toCurrency", toCurrency);
+		ResponseEntity<CurrencyConversion> response = new RestTemplate().getForEntity("http://localhost:8000/currency-exchange/from/{fromCurrency" +
+						"}/to" +
+						"/{toCurrency}",
+				CurrencyConversion.class, uriVariables);
+		CurrencyConversion currencyConversion = response.getBody();
+		currencyConversion.setQuantity(quantity);
+		currencyConversion.setTotalCalculatedAmount(quantity.multiply(currencyConversion.getConversionMultiple()));
 		return currencyConversion;
 	}
 }

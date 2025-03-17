@@ -3,6 +3,7 @@ package com.ducpq.microservices.currencyconversionservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
@@ -19,6 +20,7 @@ import java.math.BigDecimal;
 @Setter
 @ToString
 @Entity
+@SuperBuilder
 public class CurrencyConversion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
