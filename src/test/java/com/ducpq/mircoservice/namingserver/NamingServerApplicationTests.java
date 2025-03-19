@@ -1,4 +1,4 @@
-package com.ducpq.mircoservice.naming_server;
+package com.ducpq.mircoservice.namingserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
