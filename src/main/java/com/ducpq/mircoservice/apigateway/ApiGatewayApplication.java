@@ -1,4 +1,4 @@
-package com.ducpq.mircoservice.api_gateway;
+package com.ducpq.mircoservice.apigateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
