@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @version 1.0
  * @since 2025-03-17
  */
-@FeignClient(name = "currency-exchange",
-		url = "localhost:8000/currency-exchange")
+//@FeignClient(name = "currency-exchange-service",
+//		url = "localhost:8000/currency-exchange")
+@FeignClient(name = "currency-exchange-service")
 public interface CurrencyExchangeProxy {
-	@GetMapping("/from/{fromCurrency}/to/{toCurrency}")
+	@GetMapping("/currency-exchange/from/{fromCurrency}/to/{toCurrency}")
 	CurrencyConversion retrieveExchangeValue(@PathVariable("fromCurrency") String fromCurrency,
 											 @PathVariable("toCurrency") String toCurrency);
 }
