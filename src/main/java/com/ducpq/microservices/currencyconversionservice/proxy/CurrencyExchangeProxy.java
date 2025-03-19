@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 //@FeignClient(name = "currency-exchange-service",
 //		url = "localhost:8000/currency-exchange")
+// Without the url, Spring Feign will auto pick the url through Eureka
 @FeignClient(name = "currency-exchange-service")
 public interface CurrencyExchangeProxy {
 	@GetMapping("/currency-exchange/from/{fromCurrency}/to/{toCurrency}")
