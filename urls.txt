@@ -20,5 +20,5 @@ http://localhost:8765/currency-conversion-service/currency-conversion/feign/from
 Custom Routes
 http://localhost:8765/currency-exchange/from/USD/to/VND
 http://localhost:8765/currency-conversion/from/USD/to/VND/quantity/10
-http://localhost:8765/currency-conversion-/feign/from/USD/to/VND/quantity/10
+http://localhost:8765/currency-conversion/feign/from/USD/to/VND/quantity/10
 http://localhost:8765/currency-conversion-new/from/USD/to/VND/quantity/10
