@@ -4,6 +4,8 @@ import com.ducpq.microservices.currencyexchangeservice.entity.CurrencyExchange;
 import com.ducpq.microservices.currencyexchangeservice.service.CurrencyExchangeService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,12 +26,14 @@ public class CurrencyExchangeController {
 	
 	private final Environment environment;
 	private final CurrencyExchangeService currencyExchangeService;
+	private final Logger logger = LoggerFactory.getLogger(CurrencyExchangeController.class);
 	
 	@GetMapping("/from/{fromCurrency}/to/{toCurrency}")
 	public CurrencyExchange retrieveExchangeValue(@PathVariable("fromCurrency") String fromCurrency,
 												  @PathVariable("toCurrency") String toCurrency) {
 		//		CurrencyExchange currencyExchange = new CurrencyExchange(1000L, fromCurrency, toCurrency,
 		//				BigDecimal.valueOf(50));
+		logger.info("retrieveExchangeValue: fromCurrency={}, toCurrency={}", fromCurrency, toCurrency);
 		CurrencyExchange currencyExchange = currencyExchangeService.findCurrencyExchange(fromCurrency, toCurrency);
 		if (currencyExchange == null) {
 			throw new EntityNotFoundException("Not found currency exchange from " + fromCurrency + " to " + toCurrency + " at the moment!");
