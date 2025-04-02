@@ -3,6 +3,7 @@ package com.ducpq.microservices.currencyconversionservice.controller;
 import com.ducpq.microservices.currencyconversionservice.entity.CurrencyConversion;
 import com.ducpq.microservices.currencyconversionservice.proxy.CurrencyExchangeProxy;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,8 @@ import java.util.HashMap;
 public class CurrencyConversionController {
 	private final CurrencyExchangeProxy currencyExchangeProxy;
 	private final RestTemplate restTemplate;
+	@Value("${app.host-url}")
+	private String hostUrl;
 	
 	@GetMapping("/from/{fromCurrency}/to/{toCurrency}/quantity/{quantity}")
 	public CurrencyConversion calculateCurrencyConversion(@PathVariable("fromCurrency") String fromCurrency,
@@ -33,8 +36,9 @@ public class CurrencyConversionController {
 														  @PathVariable("quantity") BigDecimal quantity) {
 		HashMap<String, String> uriVariables = new HashMap<>();
 		uriVariables.put("fromCurrency", fromCurrency);
+		uriVariables.put("hostUrl", hostUrl);
 		uriVariables.put("toCurrency", toCurrency);
-		ResponseEntity<CurrencyConversion> response = restTemplate.getForEntity("http://localhost:8000/currency-exchange/from/{fromCurrency" +
+		ResponseEntity<CurrencyConversion> response = restTemplate.getForEntity("http://{hostUrl}:8000/currency-exchange/from/{fromCurrency" +
 						"}/to" +
 						"/{toCurrency}",
 				CurrencyConversion.class, uriVariables);
